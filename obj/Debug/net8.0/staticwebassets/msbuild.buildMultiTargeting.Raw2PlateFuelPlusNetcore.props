@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Raw2PlateFuelPlusNetcore.props" />
+</Project>

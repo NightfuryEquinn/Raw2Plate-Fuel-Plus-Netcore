@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Raw2PlateFuelPlusNetcore")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ebf02faff6f79ed75e40dbf27adb5396c3fdb9b9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+95b557897c8927369f54d552da0a30a03718ff76")]
 [assembly: System.Reflection.AssemblyProductAttribute("Raw2PlateFuelPlusNetcore")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Raw2PlateFuelPlusNetcore")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -38,7 +38,7 @@ namespace Raw2PlateFuelPlusNetcore.Controllers
       return Ok(_bookmark);
     }
 
-    // POST: api/bookmark/1
+    // POST: api/bookmark
     [HttpPost]
     public async Task<ActionResult<Bookmark>> PostBookmark(Bookmark _bookmark)
     {

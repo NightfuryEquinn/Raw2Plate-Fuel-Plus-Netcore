@@ -25,7 +25,7 @@ namespace Raw2PlateFuelPlusNetcore.Models
     {
       if (!optionsBuilder.IsConfigured)
       {
-        optionsBuilder.UseSqlServer("");
+        optionsBuilder.UseSqlServer("Data Source=raw2plate-fyp-db.czkgrx27genj.us-east-1.rds.amazonaws.com;Initial Catalog=raw2plate;User ID=raw2plate_admin;Password=raw2plate_admin;Connect Timeout=30;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False");
       }
     }
 

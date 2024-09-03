@@ -38,7 +38,7 @@ namespace Raw2PlateFuelPlusNetcore.Controllers
       return Ok(_cart);
     }
 
-    // POST: api/cart/1
+    // POST: api/cart
     [HttpPost]
     public async Task<ActionResult<Cart>> PostCart(Cart _cart)
     {

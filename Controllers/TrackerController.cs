@@ -38,7 +38,7 @@ namespace Raw2PlateFuelPlusNetcore.Controllers
       return Ok(_tracker);
     }
 
-    // POST: api/tracker/1
+    // POST: api/tracker
     [HttpPost]
     public async Task<ActionResult<Tracker>> PostTracker(Tracker _tracker)
     {

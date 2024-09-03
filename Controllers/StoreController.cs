@@ -38,7 +38,7 @@ namespace Raw2PlateFuelPlusNetcore.Controllers
       return Ok(_store);
     }
 
-    // POST: api/store/1
+    // POST: api/store
     [HttpPost]
     public async Task<ActionResult<Store>> PostStore(Store _store)
     {

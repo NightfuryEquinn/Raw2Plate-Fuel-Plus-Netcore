@@ -38,7 +38,7 @@ namespace Raw2PlateFuelPlusNetcore.Controllers
       return Ok(_groceryitem);
     }
 
-    // POST: api/groceryitem/1
+    // POST: api/groceryitem
     [HttpPost]
     public async Task<ActionResult<GroceryItem>> PostGroceryItem(GroceryItem _groceryitem)
     {

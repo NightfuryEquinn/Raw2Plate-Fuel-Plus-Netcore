@@ -38,7 +38,7 @@ namespace Raw2PlateFuelPlusNetcore.Controllers
       return Ok(_planner);
     }
 
-    // POST: api/planner/1
+    // POST: api/planner
     [HttpPost]
     public async Task<ActionResult<Planner>> PostPlanner(Planner _planner)
     {

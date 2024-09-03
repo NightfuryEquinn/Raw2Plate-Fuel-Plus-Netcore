@@ -38,7 +38,7 @@ namespace Raw2PlateFuelPlusNetcore.Controllers
       return Ok(_orderitem);
     }
 
-    // POST: api/orderitem/1
+    // POST: api/orderitem
     [HttpPost]
     public async Task<ActionResult<OrderItem>> PostOrderItem(OrderItem _orderitem)
     {

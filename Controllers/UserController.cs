@@ -38,10 +38,37 @@ namespace Raw2PlateFuelPlusNetcore.Controllers
       return Ok(_user);
     }
 
-    // POST: api/user/1
+    // GET: api/user/email/johndoe@gmail.com/password/johndoe
+    [HttpGet("email/{email}/password/{password}")]
+    public async Task<ActionResult<User>> CheckUser(string email, string password)
+    {
+      var _user = await _context.Users
+        .FirstOrDefaultAsync(
+          user => user.Email == email && user.Password == password
+        );
+
+      if (_user == null)
+      {
+        return Unauthorized();
+      }
+
+      return Ok(_user);
+    }
+
+    // POST: api/user
     [HttpPost]
     public async Task<ActionResult<User>> PostUser(User _user)
     {
+      // Check if email address is already in use
+      var _existing = await _context.Users.FirstOrDefaultAsync(
+        user => user.Email == _user.Email 
+      );
+
+      if (_existing != null)
+      {
+        return Conflict();
+      }
+
       _context.Users.Add(_user);
       await _context.SaveChangesAsync();
 
@@ -49,7 +76,7 @@ namespace Raw2PlateFuelPlusNetcore.Controllers
     }
 
     // PUT: api/user/1
-    [HttpPut]
+    [HttpPut("{id}")]
     public async Task<IActionResult> PutUser(int id, User _user)
     {
       if (id != _user.UserId)
@@ -67,12 +94,41 @@ namespace Raw2PlateFuelPlusNetcore.Controllers
       {
         if (!UserExists(id))
         {
-          return NotFound();
+          return Unauthorized();
         }
         else
         {
           return BadRequest();
         }
+      }
+
+      return Ok();
+    }
+
+    // PUT: api/user/email/johndoe@gmail.com/password/johndoe
+    [HttpPut("email/{email}/password/{password}")]
+    public async Task<IActionResult> ResetPassword(string email, string password)
+    {
+      var _user = await _context.Users.FirstOrDefaultAsync(
+        user => user.Email == email
+      );
+
+      if (_user == null)
+      {
+        return BadRequest();
+      }
+
+      _user.Password = password;
+
+      _context.Entry(_user).State = EntityState.Modified;
+
+      try
+      {
+        await _context.SaveChangesAsync();
+      }
+      catch (DbUpdateConcurrencyException)
+      {
+        return Unauthorized();
       }
 
       return Ok();

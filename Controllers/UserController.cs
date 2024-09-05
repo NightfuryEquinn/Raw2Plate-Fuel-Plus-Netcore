@@ -98,40 +98,11 @@ namespace Raw2PlateFuelPlusNetcore.Controllers
         }
         else
         {
-          return BadRequest();
+          return NotFound();
         }
       }
 
-      return Ok();
-    }
-
-    // PUT: api/user/email/johndoe@gmail.com/password/johndoe
-    [HttpPut("email/{email}/password/{password}")]
-    public async Task<IActionResult> ResetPassword(string email, string password)
-    {
-      var _user = await _context.Users.FirstOrDefaultAsync(
-        user => user.Email == email
-      );
-
-      if (_user == null)
-      {
-        return BadRequest();
-      }
-
-      _user.Password = password;
-
-      _context.Entry(_user).State = EntityState.Modified;
-
-      try
-      {
-        await _context.SaveChangesAsync();
-      }
-      catch (DbUpdateConcurrencyException)
-      {
-        return Unauthorized();
-      }
-
-      return Ok();
+      return Ok(_user);
     }
 
     // DELETE: api/user/1

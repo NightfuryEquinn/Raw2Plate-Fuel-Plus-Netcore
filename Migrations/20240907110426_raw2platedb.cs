@@ -5,7 +5,7 @@
 namespace Raw2PlateFuelPlusNetcore.Migrations
 {
     /// <inheritdoc />
-    public partial class raw2platealpha : Migration
+    public partial class raw2platedb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

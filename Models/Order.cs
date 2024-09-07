@@ -6,7 +6,7 @@
     public required string Receiver { get; set; }
     public required string Contact { get; set; }
     public required string Address { get; set; }
-    public required int TotalPrice { get; set; }
+    public required double TotalPrice { get; set; }
     public required string PaidWith { get; set; }
     public required string Status { get; set; }
     public required string Date { get; set; }

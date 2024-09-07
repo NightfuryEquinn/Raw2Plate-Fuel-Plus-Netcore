@@ -12,8 +12,8 @@ using Raw2PlateFuelPlusNetcore.Models;
 namespace Raw2PlateFuelPlusNetcore.Migrations
 {
     [DbContext(typeof(RawDBContext))]
-    [Migration("20240901112143_raw2plate-alpha")]
-    partial class raw2platealpha
+    [Migration("20240907110426_raw2platedb")]
+    partial class raw2platedb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

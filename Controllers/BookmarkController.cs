@@ -38,10 +38,36 @@ namespace Raw2PlateFuelPlusNetcore.Controllers
       return Ok(_bookmark);
     }
 
+    // GET: api/bookmark/userId/1
+    [HttpGet("userId/{id}")]
+    public async Task<ActionResult<IEnumerable<Bookmark>>> GetBookmarkByUserId(int id)
+    {
+      var _bookmarkList = await _context.Bookmarks
+        .Where(bookmark => bookmark.UserId == id)
+        .ToListAsync();
+
+      if (_bookmarkList == null)
+      {
+        return BadRequest();
+      }
+
+      return Ok(_bookmarkList);
+    }
+
     // POST: api/bookmark
     [HttpPost]
     public async Task<ActionResult<Bookmark>> PostBookmark(Bookmark _bookmark)
     {
+      // Check if recipe is already bookmarked
+      var _existing = await _context.Bookmarks.FirstOrDefaultAsync(
+        bookmark => bookmark.RecipeId == _bookmark.RecipeId
+      );
+
+      if (_existing != null)
+      {
+        return Conflict();
+      }
+
       _context.Bookmarks.Add(_bookmark);
       await _context.SaveChangesAsync();
 
@@ -78,11 +104,13 @@ namespace Raw2PlateFuelPlusNetcore.Controllers
       return Ok();
     }
 
-    // DELETE: api/bookmark/1
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteBookmark(int id)
+    // DELETE: api/bookmark/1/645383
+    [HttpDelete("{userId}/{recipeId}")]
+    public async Task<IActionResult> DeleteBookmark(int userId, int recipeId)
     {
-      var _bookmark = await _context.Bookmarks.FindAsync(id);
+      var _bookmark = await _context.Bookmarks
+        .Where(bookmark => bookmark.UserId == userId && bookmark.RecipeId == recipeId)
+        .FirstOrDefaultAsync();
 
       if (_bookmark == null)
       {

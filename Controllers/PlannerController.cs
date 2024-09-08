@@ -49,7 +49,7 @@ namespace Raw2PlateFuelPlusNetcore.Controllers
     }
 
     // PUT: api/planner/1
-    [HttpPut]
+    [HttpPut("{id}")]
     public async Task<IActionResult> PutPlanner(int id, Planner _planner)
     {
       if (id != _planner.PlannerId)
@@ -67,11 +67,11 @@ namespace Raw2PlateFuelPlusNetcore.Controllers
       {
         if (!PlannerExists(id))
         {
-          return NotFound();
+          return Unauthorized();
         }
         else
         {
-          return BadRequest();
+          return NotFound();
         }
       }
 

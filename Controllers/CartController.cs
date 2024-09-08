@@ -79,7 +79,7 @@ namespace Raw2PlateFuelPlusNetcore.Controllers
     }
 
     // PUT: api/cart/1
-    [HttpPut]
+    [HttpPut("{id}")]
     public async Task<IActionResult> PutCart(int id, Cart _cart)
     {
       if (id != _cart.CartId)
@@ -97,11 +97,11 @@ namespace Raw2PlateFuelPlusNetcore.Controllers
       {
         if (!CartExists(id))
         {
-          return NotFound();
+          return Unauthorized();
         }
         else
         {
-          return BadRequest();
+          return NotFound();
         }
       }
 

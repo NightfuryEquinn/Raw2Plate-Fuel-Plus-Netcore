@@ -49,7 +49,7 @@ namespace Raw2PlateFuelPlusNetcore.Controllers
     }
 
     // PUT: api/grocerylist/1
-    [HttpPut]
+    [HttpPut("{id}")]
     public async Task<IActionResult> PutGroceryList(int id, GroceryList _grocerylist)
     {
       if (id != _grocerylist.GroceryListId)
@@ -67,11 +67,11 @@ namespace Raw2PlateFuelPlusNetcore.Controllers
       {
         if (!GroceryListExists(id))
         {
-          return NotFound();
+          return Unauthorized();
         }
         else
         {
-          return BadRequest();
+          return NotFound();
         }
       }
 

@@ -75,7 +75,7 @@ namespace Raw2PlateFuelPlusNetcore.Controllers
     }
 
     // PUT: api/bookmark/1
-    [HttpPut]
+    [HttpPut("{id}")]
     public async Task<IActionResult> PutBookmark(int id, Bookmark _bookmark)
     {
       if (id != _bookmark.BookmarkId)
@@ -93,11 +93,11 @@ namespace Raw2PlateFuelPlusNetcore.Controllers
       {
         if (!BookmarkExists(id))
         {
-          return NotFound();
+          return Unauthorized();
         }
         else
         {
-          return BadRequest();
+          return NotFound();
         }
       }
 

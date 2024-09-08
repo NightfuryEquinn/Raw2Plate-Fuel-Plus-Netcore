@@ -49,7 +49,7 @@ namespace Raw2PlateFuelPlusNetcore.Controllers
     }
 
     // PUT: api/tracker/1
-    [HttpPut]
+    [HttpPut("{id}")]
     public async Task<IActionResult> PutTracker(int id, Tracker _tracker)
     {
       if (id != _tracker.TrackerId)
@@ -67,11 +67,11 @@ namespace Raw2PlateFuelPlusNetcore.Controllers
       {
         if (!TrackerExists(id))
         {
-          return NotFound();
+          return Unauthorized();
         }
         else
         {
-          return BadRequest();
+          return NotFound();
         }
       }
 

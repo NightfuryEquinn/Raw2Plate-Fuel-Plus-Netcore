@@ -49,7 +49,7 @@ namespace Raw2PlateFuelPlusNetcore.Controllers
     }
 
     // PUT: api/meal/1
-    [HttpPut]
+    [HttpPut("{id}")]
     public async Task<IActionResult> PutMeal(int id, Meal _meal)
     {
       if (id != _meal.MealId)
@@ -67,11 +67,11 @@ namespace Raw2PlateFuelPlusNetcore.Controllers
       {
         if (!MealExists(id))
         {
-          return NotFound();
+          return Unauthorized();
         }
         else
         {
-          return BadRequest();
+          return NotFound();
         }
       }
 

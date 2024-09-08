@@ -1,8 +1,14 @@
-﻿namespace Raw2PlateFuelPlusNetcore.Models
+﻿namespace Raw2PlateFuelPlusNetcore.DTOs
 {
-  public partial class Item
+  public class CartItemDTO
   {
-    public required int ItemId { get; set; }
+    // Cart properties
+    public required int CartId { get; set; }
+    public required int Quantity { get; set; }
+    public int? UserId { get; set; }
+    public int? ItemId { get; set; }
+
+    // Item properties
     public required string Name { get; set; }
     public required string Category { get; set; }
     public required string Image { get; set; }

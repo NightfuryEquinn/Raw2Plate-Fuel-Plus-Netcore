@@ -5,7 +5,7 @@
 namespace Raw2PlateFuelPlusNetcore.Migrations
 {
     /// <inheritdoc />
-    public partial class raw2platedb : Migration
+    public partial class raw2plate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -94,7 +94,7 @@ namespace Raw2PlateFuelPlusNetcore.Migrations
                     ManualMealId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Calories = table.Column<int>(type: "int", nullable: false),
+                    Calories = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     TrackerId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>

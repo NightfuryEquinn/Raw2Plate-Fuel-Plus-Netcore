@@ -12,8 +12,8 @@ using Raw2PlateFuelPlusNetcore.Models;
 namespace Raw2PlateFuelPlusNetcore.Migrations
 {
     [DbContext(typeof(RawDBContext))]
-    [Migration("20240907110426_raw2platedb")]
-    partial class raw2platedb
+    [Migration("20240908045503_raw2plate")]
+    partial class raw2plate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -164,8 +164,8 @@ namespace Raw2PlateFuelPlusNetcore.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ManualMealId"));
 
-                    b.Property<int>("Calories")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Calories")
+                        .HasColumnType("decimal(10,2)");
 
                     b.Property<string>("Name")
                         .IsRequired()

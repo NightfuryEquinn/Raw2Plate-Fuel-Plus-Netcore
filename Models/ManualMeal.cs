@@ -4,7 +4,7 @@
   {
     public required int ManualMealId { get; set; }
     public required string Name { get; set; }
-    public required int Calories { get; set; }
+    public required double Calories { get; set; }
     public int? TrackerId { get; set; }
   }
 }

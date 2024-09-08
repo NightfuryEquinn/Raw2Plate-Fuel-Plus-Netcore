@@ -38,6 +38,22 @@ namespace Raw2PlateFuelPlusNetcore.Controllers
       return Ok(_item);
     }
 
+    // GET: api/item/store/1
+    [HttpGet("store/{id}")]
+    public async Task<ActionResult<IEnumerable<Item>>> GetItemByStoreId(int id)
+    {
+      var _itemList = await _context.Items
+        .Where(item => item.StoreId == id)
+        .ToListAsync();
+
+      if (_itemList == null)
+      {
+        return BadRequest();
+      }
+
+      return Ok(_itemList);
+    }
+
     // POST: api/item
     [HttpPost]
     public async Task<ActionResult<Item>> PostItem(Item _item)

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Raw2PlateFuelPlusNetcore.DTOs;
 using Raw2PlateFuelPlusNetcore.Models;
 
 namespace Raw2PlateFuelPlusNetcore.Controllers
@@ -36,6 +37,35 @@ namespace Raw2PlateFuelPlusNetcore.Controllers
       }
 
       return Ok(_cart);
+    }
+
+    // GET: api/cart/user/1/store/1
+    [HttpGet("user/{userId}/store/{storeId}")]
+    public async Task<ActionResult<IEnumerable<Cart>>> GetCartByUserId(int userId, int storeId)
+    {
+      var _cartList = await (from cart in _context.Carts
+                             join item in _context.Items on cart.ItemId equals item.ItemId
+                             where cart.UserId == userId && item.StoreId == storeId
+                             select new CartItemDTO 
+                             { 
+                               CartId = cart.CartId,
+                               Quantity = cart.Quantity,
+                               UserId = cart.UserId,
+                               ItemId = cart.ItemId,
+                               Name = item.Name,
+                               Category = item.Category,
+                               Image = item.Image,
+                               Price = item.Price,
+                               Description = item.Description,
+                               StoreId = item.StoreId
+                             }).ToListAsync();
+
+      if (_cartList == null)
+      {
+        return BadRequest();
+      }
+
+      return Ok(_cartList);
     }
 
     // POST: api/cart

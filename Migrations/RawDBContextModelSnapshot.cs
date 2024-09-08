@@ -161,8 +161,8 @@ namespace Raw2PlateFuelPlusNetcore.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ManualMealId"));
 
-                    b.Property<int>("Calories")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Calories")
+                        .HasColumnType("decimal(10,2)");
 
                     b.Property<string>("Name")
                         .IsRequired()

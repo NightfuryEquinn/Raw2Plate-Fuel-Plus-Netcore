@@ -12,8 +12,8 @@ using Raw2PlateFuelPlusNetcore.Models;
 namespace Raw2PlateFuelPlusNetcore.Migrations
 {
     [DbContext(typeof(RawDBContext))]
-    [Migration("20240908045503_raw2plate")]
-    partial class raw2plate
+    [Migration("20240910145801_raw2platedb")]
+    partial class raw2platedb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -283,6 +283,9 @@ namespace Raw2PlateFuelPlusNetcore.Migrations
                         .HasColumnType("int");
 
                     b.Property<int?>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.HasKey("OrderItemId");

@@ -282,6 +282,9 @@ namespace Raw2PlateFuelPlusNetcore.Migrations
                     b.Property<int?>("OrderId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
                     b.HasKey("OrderItemId");
 
                     b.ToTable("OrderItem", (string)null);

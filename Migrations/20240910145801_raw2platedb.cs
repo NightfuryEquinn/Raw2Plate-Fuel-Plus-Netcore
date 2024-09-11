@@ -5,7 +5,7 @@
 namespace Raw2PlateFuelPlusNetcore.Migrations
 {
     /// <inheritdoc />
-    public partial class raw2plate : Migration
+    public partial class raw2platedb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -147,6 +147,7 @@ namespace Raw2PlateFuelPlusNetcore.Migrations
                 {
                     OrderItemId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
                     ItemId = table.Column<int>(type: "int", nullable: true),
                     OrderId = table.Column<int>(type: "int", nullable: true)
                 },

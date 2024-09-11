@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Raw2PlateFuelPlusNetcore.DTOs;
 using Raw2PlateFuelPlusNetcore.Models;
 
 namespace Raw2PlateFuelPlusNetcore.Controllers
@@ -36,6 +37,66 @@ namespace Raw2PlateFuelPlusNetcore.Controllers
       }
 
       return Ok(_order);
+    }
+
+    // GET: api/order/user/1
+    [HttpGet("user/{id}")]
+    public async Task<ActionResult<Order>> GetOrderByUserId(int id)
+    {
+      // Get first active order only
+      var _order = await (from order in _context.Orders
+                          join orderItem in _context.OrderItems on order.OrderId equals orderItem.OrderId
+                          join item in _context.Items on orderItem.ItemId equals item.ItemId
+                          join store in _context.Stores on item.StoreId equals store.StoreId
+                          where order.UserId == id && (order.Status == "Pending" || order.Status == "Delivering")
+                          select new OrderInfoDTO
+                          {
+                            OrderId = order.OrderId,
+                            Receiver = order.Receiver,
+                            Contact = order.Contact,
+                            Address = order.Address,
+                            TotalPrice = order.TotalPrice,
+                            PaidWith = order.PaidWith,
+                            Status = order.Status,
+                            Date = order.Date,
+                            OrderTime = order.OrderTime,
+                            DeliveredTime = order.DeliveredTime,
+                            Driver = order.Driver,
+                            UserId = order.UserId,
+                            StoreId = store.StoreId,
+                            StoreName = store.Name,
+                            StoreImage = store.Image,
+                          }).FirstOrDefaultAsync();
+
+      if (_order == null)
+      {
+        return BadRequest();
+      }
+
+      return Ok(_order);
+    }
+
+    // GET: api/order/user/1/items
+    [HttpGet("user/{id}/items")]
+    public async Task<ActionResult<IEnumerable<Order>>> GetOrderItem(int id)
+    {
+      var _items = await (from item in _context.Items
+                          join orderItem in _context.OrderItems on item.ItemId equals orderItem.ItemId
+                          where orderItem.OrderId == id
+                          select new
+                          {
+                            item.ItemId,
+                            item.Name,
+                            orderItem.Quantity,
+                            item.Price
+                          }).ToListAsync();
+
+      if (_items == null)
+      {
+        return BadRequest();
+      }
+
+      return Ok(_items);
     }
 
     // POST: api/order

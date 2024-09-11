@@ -72,10 +72,26 @@ namespace Raw2PlateFuelPlusNetcore.Controllers
     [HttpPost]
     public async Task<ActionResult<Cart>> PostCart(Cart _cart)
     {
-      _context.Carts.Add(_cart);
-      await _context.SaveChangesAsync();
+      var _existing = await _context.Carts
+        .FirstOrDefaultAsync(
+          c => c.ItemId == _cart.ItemId
+        );
 
-      return CreatedAtAction("GetCart", new { id = _cart.CartId }, _cart);
+      if (_existing != null)
+      {
+        _existing.Quantity += _cart.Quantity;
+
+        await _context.SaveChangesAsync();
+
+        return Ok(_existing);
+      }
+      else
+      {
+        _context.Carts.Add(_cart);
+        await _context.SaveChangesAsync();
+
+        return CreatedAtAction("GetCart", new { id = _cart.CartId }, _cart);
+      }
     }
 
     // PUT: api/cart/1

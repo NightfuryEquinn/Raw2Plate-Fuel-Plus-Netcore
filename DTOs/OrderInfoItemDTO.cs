@@ -6,5 +6,6 @@
     public required string ItemName;
     public required int Quantity;
     public required double Price;
+    public int? OrderId;
   }
 }

@@ -66,7 +66,7 @@ namespace Raw2PlateFuelPlusNetcore.Controllers
                             StoreId = store.StoreId,
                             StoreName = store.Name,
                             StoreImage = store.Image,
-                          }).FirstOrDefaultAsync();
+                          }).Distinct().FirstOrDefaultAsync();
 
       if (_order == null)
       {
@@ -88,7 +88,8 @@ namespace Raw2PlateFuelPlusNetcore.Controllers
                             item.ItemId,
                             item.Name,
                             orderItem.Quantity,
-                            item.Price
+                            item.Price,
+                            orderItem.OrderId
                           }).ToListAsync();
 
       if (_items == null)
@@ -97,6 +98,42 @@ namespace Raw2PlateFuelPlusNetcore.Controllers
       }
 
       return Ok(_items);
+    }
+
+    // GET: api/order/user/1/past
+    [HttpGet("user/{id}/past")]
+    public async Task<ActionResult<IEnumerable<Order>>> GetPastOrderByUserId(int id)
+    {
+      var _past = await (from order in _context.Orders
+                          join orderItem in _context.OrderItems on order.OrderId equals orderItem.OrderId
+                          join item in _context.Items on orderItem.ItemId equals item.ItemId
+                          join store in _context.Stores on item.StoreId equals store.StoreId
+                          where order.UserId == id && (order.Status == "Completed" || order.Status == "Cancelled")
+                          select new OrderInfoDTO
+                          {
+                            OrderId = order.OrderId,
+                            Receiver = order.Receiver,
+                            Contact = order.Contact,
+                            Address = order.Address,
+                            TotalPrice = order.TotalPrice,
+                            PaidWith = order.PaidWith,
+                            Status = order.Status,
+                            Date = order.Date,
+                            OrderTime = order.OrderTime,
+                            DeliveredTime = order.DeliveredTime,
+                            Driver = order.Driver,
+                            UserId = order.UserId,
+                            StoreId = store.StoreId,
+                            StoreName = store.Name,
+                            StoreImage = store.Image,
+                          }).Distinct().ToListAsync();
+
+      if (_past == null)
+      {
+        return BadRequest();
+      }
+
+      return Ok(_past);
     }
 
     // POST: api/order

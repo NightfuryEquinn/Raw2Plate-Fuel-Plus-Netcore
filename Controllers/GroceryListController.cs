@@ -38,10 +38,43 @@ namespace Raw2PlateFuelPlusNetcore.Controllers
       return Ok(_grocerylist);
     }
 
+    // GET: api/grocerylist/user/1
+    [HttpGet("user/{id}")]
+    public async Task<ActionResult<IEnumerable<GroceryList>>> GetGroceryListByUserId(int id)
+    {
+      var _grocerylist = await (from grocerylist in _context.GroceryLists
+                                join groceryitem in _context.GroceryItems on grocerylist.GroceryListId equals groceryitem.GroceryListId
+                                where grocerylist.UserId == id
+                                select new
+                                {
+                                  groceryitem.GroceryItemId,
+                                  groceryitem.Name,
+                                  groceryitem.IsCompleted,
+                                  grocerylist.GroceryListId,
+                                  grocerylist.UserId
+                                }).ToListAsync();
+      
+      if (_grocerylist == null)
+      {
+        return BadRequest();
+      }
+
+      return Ok(_grocerylist);
+    }
+
     // POST: api/grocerylist
     [HttpPost]
     public async Task<ActionResult<GroceryList>> PostGroceryList(GroceryList _grocerylist)
     {
+      var _existing = await _context.GroceryLists
+        .Where(g => g.UserId == _grocerylist.UserId)
+        .FirstOrDefaultAsync();
+
+      if (_existing != null)
+      {
+        return Ok(_existing);
+      }
+
       _context.GroceryLists.Add(_grocerylist);
       await _context.SaveChangesAsync();
 

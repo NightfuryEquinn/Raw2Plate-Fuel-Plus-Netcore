@@ -38,10 +38,108 @@ namespace Raw2PlateFuelPlusNetcore.Controllers
       return Ok(_meal);
     }
 
-    // POST: api/meal
-    [HttpPost]
-    public async Task<ActionResult<Meal>> PostMeal(Meal _meal)
+    // GET: api/meal/planner/1
+    [HttpGet("planner/{id}")]
+    public async Task<ActionResult<IEnumerable<Meal>>> GetMealPlannerByUserId(int id)
     {
+      var _meal = await (from meal in _context.Meals
+                         join planner in _context.Planners on meal.PlannerId equals planner.PlannerId
+                         where planner.UserId == id
+                         select new
+                         {
+                           meal.MealId,
+                           meal.MealType,
+                           meal.RecipeId,
+                           planner.PlannerId,
+                           planner.Date,
+                           planner.UserId
+                         }).ToListAsync();
+
+      if (_meal == null)
+      {
+        return BadRequest();
+      }
+
+      return Ok(_meal);
+    }
+
+    // GET: api/meal/tracker/1
+    [HttpGet("tracker/{id}")]
+    public async Task<ActionResult<IEnumerable<Meal>>> GetMealTrackerByUserId(int id)
+    {
+      var _meal = await (from meal in _context.Meals
+                         join tracker in _context.Trackers on meal.TrackerId equals tracker.TrackerId
+                         where tracker.UserId == id
+                         select new
+                         {
+                           meal.MealId,
+                           meal.MealType,
+                           meal.RecipeId,
+                           tracker.TrackerId,
+                           tracker.Date,
+                           tracker.UserId
+                         }).ToListAsync();
+
+      if (_meal == null)
+      {
+        return BadRequest();
+      }
+
+      return Ok(_meal);
+    }
+
+    // POST: api/meal/user/1
+    [HttpPost("user/{id}")]
+    public async Task<ActionResult<Meal>> PostMeal(int id, Meal _meal)
+    {
+      string currentDate = DateTime.Now.ToString("yyyy-MM-dd");
+
+      // Check existing meal on same meal type
+      var _existingMeal = await _context.Meals
+        .FirstOrDefaultAsync(meal => meal.MealType == _meal.MealType && meal.RecipeId == _meal.RecipeId);
+
+      if (_existingMeal != null)
+      {
+        return BadRequest();
+      }
+
+      // Check existing planner of the user
+      var _planner = await _context.Planners
+        .FirstOrDefaultAsync(planner => planner.UserId == id);
+
+      if (_planner == null)
+      {
+        _planner = new Planner
+        {
+          PlannerId = 0,
+          Date = currentDate,
+          UserId = id
+        };
+
+        _context.Planners.Add(_planner);
+        await _context.SaveChangesAsync();
+      }
+
+      // Check existing tracker of the user
+      var _tracker = await _context.Trackers
+        .FirstOrDefaultAsync(tracker => tracker.UserId == id);
+
+      if (_tracker == null)
+      {
+        _tracker = new Tracker
+        {
+          TrackerId = 0,
+          Date = currentDate,
+          UserId = id
+        };
+
+        _context.Trackers.Add(_tracker);
+        await _context.SaveChangesAsync();
+      }
+
+      _meal.PlannerId = _planner.PlannerId;
+      _meal.TrackerId = _tracker.TrackerId;
+
       _context.Meals.Add(_meal);
       await _context.SaveChangesAsync();
 

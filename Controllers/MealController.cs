@@ -88,12 +88,10 @@ namespace Raw2PlateFuelPlusNetcore.Controllers
       return Ok(_meal);
     }
 
-    // POST: api/meal/user/1
-    [HttpPost("user/{id}")]
-    public async Task<ActionResult<Meal>> PostMeal(int id, Meal _meal)
+    // POST: api/meal/user/1/2024-09-14
+    [HttpPost("user/{id}/{date}")]
+    public async Task<ActionResult<Meal>> PostMeal(int id, string date, Meal _meal)
     {
-      string currentDate = DateTime.Now.ToString("yyyy-MM-dd");
-
       // Check existing meal on same meal type
       var _existingMeal = await _context.Meals
         .FirstOrDefaultAsync(meal => meal.MealType == _meal.MealType && meal.RecipeId == _meal.RecipeId);
@@ -105,14 +103,14 @@ namespace Raw2PlateFuelPlusNetcore.Controllers
 
       // Check existing planner of the user
       var _planner = await _context.Planners
-        .FirstOrDefaultAsync(planner => planner.UserId == id);
+        .FirstOrDefaultAsync(planner => planner.UserId == id && planner.Date == date);
 
       if (_planner == null)
       {
         _planner = new Planner
         {
           PlannerId = 0,
-          Date = currentDate,
+          Date = date,
           UserId = id
         };
 
@@ -122,14 +120,14 @@ namespace Raw2PlateFuelPlusNetcore.Controllers
 
       // Check existing tracker of the user
       var _tracker = await _context.Trackers
-        .FirstOrDefaultAsync(tracker => tracker.UserId == id);
+        .FirstOrDefaultAsync(tracker => tracker.UserId == id && tracker.Date == date);
 
       if (_tracker == null)
       {
         _tracker = new Tracker
         {
           TrackerId = 0,
-          Date = currentDate,
+          Date = date,
           UserId = id
         };
 

@@ -38,10 +38,29 @@ namespace Raw2PlateFuelPlusNetcore.Controllers
       return Ok(_manualmeal);
     }
 
-    // POST: api/manualmeal
-    [HttpPost]
-    public async Task<ActionResult<ManualMeal>> PostManualMeal(ManualMeal _manualmeal)
+    // POST: api/manualmeal/user/1/2024-09-14
+    [HttpPost("user/{id}/{date}")]
+    public async Task<ActionResult<ManualMeal>> PostManualMeal(int id, string date, ManualMeal _manualmeal)
     {
+      // Check existing tracker of the user
+      var _tracker = await _context.Trackers
+        .FirstOrDefaultAsync(mMeal => mMeal.UserId == id && mMeal.Date == date);
+
+      if (_tracker == null)
+      {
+        _tracker = new Tracker
+        {
+          TrackerId = 0,
+          Date = date,
+          UserId = id
+        };
+
+        _context.Trackers.Add(_tracker);
+        await _context.SaveChangesAsync();
+      }
+
+      _manualmeal.TrackerId = _tracker.TrackerId;
+
       _context.ManualMeals.Add(_manualmeal);
       await _context.SaveChangesAsync();
 

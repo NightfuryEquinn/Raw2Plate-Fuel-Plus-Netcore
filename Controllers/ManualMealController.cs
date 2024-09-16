@@ -38,6 +38,31 @@ namespace Raw2PlateFuelPlusNetcore.Controllers
       return Ok(_manualmeal);
     }
 
+    // GET: api/manualmeal/tracker/1
+    [HttpGet("tracker/{id}")]
+    public async Task<ActionResult<IEnumerable<ManualMeal>>> GetManualMealTrackerByUserId(int id)
+    {
+      var _manualMeal = await (from mMeal in _context.ManualMeals
+                               join tracker in _context.Trackers on mMeal.TrackerId equals tracker.TrackerId
+                               where tracker.UserId == id
+                               select new
+                               {
+                                 mMeal.ManualMealId,
+                                 mMeal.Name,
+                                 mMeal.Calories,
+                                 tracker.TrackerId,
+                                 tracker.Date,
+                                 tracker.UserId
+                               }).ToListAsync();
+
+      if (_manualMeal == null)
+      {
+        return BadRequest();
+      }
+
+      return Ok(_manualMeal);
+    }
+
     // POST: api/manualmeal/user/1/2024-09-14
     [HttpPost("user/{id}/{date}")]
     public async Task<ActionResult<ManualMeal>> PostManualMeal(int id, string date, ManualMeal _manualmeal)

@@ -12,7 +12,7 @@ using Raw2PlateFuelPlusNetcore.Models;
 namespace Raw2PlateFuelPlusNetcore.Migrations
 {
     [DbContext(typeof(RawDBContext))]
-    [Migration("20240910145801_raw2platedb")]
+    [Migration("20240919092037_raw2platedb")]
     partial class raw2platedb
     {
         /// <inheritdoc />
@@ -188,6 +188,10 @@ namespace Raw2PlateFuelPlusNetcore.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MealId"));
 
+                    b.Property<string>("Comment")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
                     b.Property<string>("MealType")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -322,8 +326,8 @@ namespace Raw2PlateFuelPlusNetcore.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StoreId"));
 
-                    b.Property<int>("Distance")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Distance")
+                        .HasColumnType("decimal(10,2)");
 
                     b.Property<string>("Image")
                         .IsRequired()

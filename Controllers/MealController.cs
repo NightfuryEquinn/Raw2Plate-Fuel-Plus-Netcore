@@ -50,6 +50,7 @@ namespace Raw2PlateFuelPlusNetcore.Controllers
                            meal.MealId,
                            meal.MealType,
                            meal.RecipeId,
+                           meal.Comment,
                            planner.PlannerId,
                            planner.Date,
                            planner.UserId
@@ -75,6 +76,7 @@ namespace Raw2PlateFuelPlusNetcore.Controllers
                            meal.MealId,
                            meal.MealType,
                            meal.RecipeId,
+                           meal.Comment,
                            tracker.TrackerId,
                            tracker.Date,
                            tracker.UserId

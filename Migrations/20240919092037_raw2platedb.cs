@@ -110,6 +110,7 @@ namespace Raw2PlateFuelPlusNetcore.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     MealType = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     RecipeId = table.Column<int>(type: "int", nullable: false),
+                    Comment = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     PlannerId = table.Column<int>(type: "int", nullable: true),
                     TrackerId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -178,7 +179,7 @@ namespace Raw2PlateFuelPlusNetcore.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     Image = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Distance = table.Column<int>(type: "int", nullable: false)
+                    Distance = table.Column<decimal>(type: "decimal(10,2)", nullable: false)
                 },
                 constraints: table =>
                 {

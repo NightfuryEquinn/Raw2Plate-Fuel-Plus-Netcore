@@ -13,5 +13,5 @@
     "template"      : "serverless.template",
     "template-parameters" : "",
     "s3-bucket"           : "raw2platebucket",
-    "stack-name"          : "Raw2Plate"
+    "stack-name"          : "raw2platestack"
 }

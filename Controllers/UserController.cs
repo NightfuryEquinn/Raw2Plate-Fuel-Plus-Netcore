@@ -38,13 +38,13 @@ namespace Raw2PlateFuelPlusNetcore.Controllers
       return Ok(_user);
     }
 
-    // GET: api/user/email/johndoe@gmail.com/password/johndoe
-    [HttpGet("email/{email}/password/{password}")]
-    public async Task<ActionResult<User>> CheckUser(string email, string password)
+    // GET: api/user/email/johndoe@gmail.com
+    [HttpGet("email/{email}")]
+    public async Task<ActionResult<User>> CheckUser(string email)
     {
       var _user = await _context.Users
         .FirstOrDefaultAsync(
-          user => user.Email == email && user.Password == password
+          user => user.Email == email
         );
 
       if (_user == null)

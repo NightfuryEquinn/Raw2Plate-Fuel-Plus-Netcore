@@ -185,6 +185,10 @@ namespace Raw2PlateFuelPlusNetcore.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MealId"));
 
+                    b.Property<string>("Comment")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
                     b.Property<string>("MealType")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -319,8 +323,8 @@ namespace Raw2PlateFuelPlusNetcore.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StoreId"));
 
-                    b.Property<int>("Distance")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Distance")
+                        .HasColumnType("decimal(10,2)");
 
                     b.Property<string>("Image")
                         .IsRequired()

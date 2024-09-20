@@ -25,7 +25,7 @@ namespace Raw2PlateFuelPlusNetcore.Models
     {
       if (!optionsBuilder.IsConfigured)
       {
-        optionsBuilder.UseSqlServer("Data Source=raw2plate-fyp-db.czkgrx27genj.us-east-1.rds.amazonaws.com;Initial Catalog=raw2platedb;User ID=raw2plate_admin;Password=raw2plate_admin;Connect Timeout=30;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False");
+        optionsBuilder.UseSqlServer("Data Source=raw2plate-fyp-db.czzsvw0u4gbj.us-east-1.rds.amazonaws.com;Initial Catalog=raw2platedb;User ID=raw2plate_admin;Password=raw2plate_admin;Connect Timeout=30;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False");
       }
     }
 
@@ -178,7 +178,10 @@ namespace Raw2PlateFuelPlusNetcore.Models
         
         entity.Property(e => e.RecipeId)
           .IsRequired();
-        
+
+        entity.Property(e => e.Comment)
+          .HasMaxLength(255);
+
         entity.Property(e => e.PlannerId);
 
         entity.Property(e => e.TrackerId);
@@ -291,7 +294,8 @@ namespace Raw2PlateFuelPlusNetcore.Models
           .HasMaxLength(255);
 
         entity.Property(e => e.Distance)
-          .IsRequired();
+          .IsRequired()
+          .HasColumnType("decimal(10,2)");
       });
 
       modelBuilder.Entity<Tracker>(entity =>
